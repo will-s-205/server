@@ -16,8 +16,14 @@ app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Max-Age', 1728000); // WORKS?
   next();
 });
+// OTHER OPTIONS
+// add_header 'Access-Control-Allow-Origin' '*';
+// add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, DELETE, HEAD';
+// add_header 'Access-Control-Allow-Headers' 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization';
+// add_header 'Access-Control-Expose-Headers' 'Content-Length,Content-Range';
 
 // Connect to MongoDB using Mongoose
 mongooseDB.connect(process.env.MONGO_URI, {
