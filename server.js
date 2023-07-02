@@ -5,6 +5,7 @@ const mongooseDB = require('mongoose');
 const dotenv = require('dotenv');
 const path = require('path');
 const userCreds = require('./user.model');
+const port = process.env.PORT || 3000
 
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 app.use(express.json());
@@ -56,4 +57,4 @@ app.post(signup, async (req, res) => {
 });
 
 // Start the server
-app.listen(() => { });
+app.listen(port, () => { });
