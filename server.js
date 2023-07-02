@@ -67,7 +67,7 @@ app.post(signin, async (req, res) => {
   })
 
   if(user) {
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET);
     return res.send({ status: 'ok', user: token });
   } else {
     return res.send({ status: 'error', user: false });
