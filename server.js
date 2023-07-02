@@ -7,8 +7,17 @@ const path = require('path');
 const userCreds = require('./user.model');
 
 dotenv.config({ path: path.resolve(__dirname, '.env') });
-app.use(cors({ origin: 'https://login.rigo205.repl.co/' }));
 app.use(express.json());
+
+// app.use(cors({ origin: 'https://login.rigo205.repl.co/' }));
+// OR
+app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
 
 // Connect to MongoDB using Mongoose
 mongooseDB.connect(process.env.MONGO_URI, {
@@ -18,8 +27,8 @@ mongooseDB.connect(process.env.MONGO_URI, {
 });
 
 // INITALL DEBUGGING
-app.get('', (req, res) => {
-  res.json({ message: 'API endpoint is working' });
+app.get('/', (req, res) => {
+  res.json({ message: 'API endpoint is working!' });
 });
 
 // SIGNUP
