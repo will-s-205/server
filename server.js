@@ -7,7 +7,7 @@ const path = require('path');
 const userCreds = require('./user.model');
 
 dotenv.config({ path: path.resolve(__dirname, '.env') });
-app.use(cors());
+app.use(cors({ origin: 'https://login.rigo205.repl.co/' }));
 app.use(express.json());
 
 // Connect to MongoDB using Mongoose
