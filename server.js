@@ -5,6 +5,7 @@ const mongooseDB = require('mongoose');
 const dotenv = require('dotenv');
 const path = require('path');
 const userCreds = require('./user.model');
+const jwt = require('jsonwebtoken')
 const port = process.env.PORT || 3000
 
 dotenv.config({ path: path.resolve(__dirname, '.env') });
@@ -13,7 +14,7 @@ app.use(express.json());
 // app.use(cors({ origin: 'https://login.rigo205.repl.co/' }));
 // OR
 app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', '*'); // change it to choosen ones
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -41,7 +42,7 @@ app.get('/', (req, res) => {
 // SIGNUP
 const signup = '/api/signup';
 app.post(signup, async (req, res) => {
-  console.log(req.body);
+  console.log(req.body); // DEBUG
   try {
     const user = await userCreds.create({
       name: req.body.name,
@@ -54,6 +55,24 @@ app.post(signup, async (req, res) => {
     console.log(error);
     res.json({ status: 'error', message: error });
   }
+});
+
+// SIGNIN
+const signin = '/api/signin';
+app.post(signin, async (req, res) => {
+  console.log(req.body); // DEBUG
+  const user = await userCreds.findOne({
+    email: req.body.email,
+    password: req.body.password,
+  })
+
+  if(user) {
+    return res.send({ status: 'ok', user: true });
+  } else {
+    return res.send({ status: 'error', user: false });
+  }
+    
+ 
 });
 
 // Start the server
